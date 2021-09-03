@@ -1,0 +1,16 @@
+.wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 15px;
+	min-height: 100vh;
+	background-color: #d1d1d1d1;
+
+	& > button:first-child {
+		grid-column-start: 1;
+		grid-column-end: 3;
+	}
+
+	& > div {
+		border: 2px solid black;
+	}
+}

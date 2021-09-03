@@ -13,38 +13,5 @@
 	.options {
 		display: flex;
 		flex-direction: column;
-
-		.button {
-			width: 350px;
-			height: 64px;
-			font-size: 22px;
-			letter-spacing: 1.7px;
-			cursor: pointer;
-			margin: 10px 0px;
-			transition: all 0.2s ease-in-out;
-			border: 3px solid #fff;
-
-			&:hover:not(:disabled) {
-				// transform: scaleX(-1);
-				background-color: #e37036;
-				animation: jump 0.3s ease;
-				color: #fff;
-			}
-		}
-	}
-}
-
-@keyframes jump {
-	0% {
-		transform: translateY(-7px);
-	}
-	20% {
-		transform: translateY(0px);
-	}
-	60% {
-		transform: translateY(7px);
-	}
-	100% {
-		transform: none;
 	}
 }

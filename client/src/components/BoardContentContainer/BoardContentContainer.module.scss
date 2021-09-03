@@ -1,0 +1,20 @@
+.main {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+	padding: 3vh 4vh;
+	height: 100vh;
+	overflow-y: auto;
+
+	&__redux {
+		background-color: #afccbf;
+	}
+
+	&__mobx {
+		background-color: #f0ae8d;
+	}
+
+	h1 {
+		text-align: center;
+	}
+}

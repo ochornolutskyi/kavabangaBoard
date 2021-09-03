@@ -1,9 +1,0 @@
-.row {
-	display: grid;
-	grid-template-columns: 2fr 3fr 1fr 1fr 1fr;
-	gap: 15px;
-
-	& > span {
-		padding: 5px;
-	}
-}

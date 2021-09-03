@@ -6,7 +6,7 @@ export type Task = {
 	date: Date;
 	name: string;
 	description: string;
-	status: TASK_STATUS;
+	status?: TASK_STATUS;
 	user?: string;
 };
 

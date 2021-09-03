@@ -1,0 +1,33 @@
+.main {
+	display: grid;
+	gap: 2vh;
+
+	& > button {
+		margin: 0 auto;
+	}
+
+	.table {
+		display: grid;
+		grid-template-columns: 1fr;
+		padding: 15px;
+		background-color: #999;
+
+		&__title {
+			text-align: center;
+			margin-bottom: 2vh;
+			letter-spacing: 1.5px;
+		}
+
+		&__content {
+			display: grid;
+			grid-template-rows: repeat(1fr);
+			gap: 10px;
+			font-family: Arial;
+
+			&_total {
+				width: max-content;
+				margin-left: auto;
+			}
+		}
+	}
+}

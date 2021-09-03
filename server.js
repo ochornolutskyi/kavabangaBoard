@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 let tasks = [
   {
     id: "1",
-    date: new Date("03/08/2021"),
+    date: new Date("03/09/2021"),
     name: "Drink with team",
     description: "All of teammate should be very drunk",
     status: 1,
@@ -21,15 +21,15 @@ let tasks = [
   },
   {
     id: "2",
-    date: new Date("03/08/2021"),
+    date: new Date("03/09/2021"),
     name: "Make TechFriday for MobX",
     description: "Should to show a difference about Redux and MobX",
-    status: 2,
+    status: 1,
     user: "1",
   },
   {
     id: "3",
-    date: new Date("03/08/2021"),
+    date: new Date("03/09/2021"),
     name: "Init report projec",
     description: "Init new project for TechFriday",
     status: 2,
@@ -42,6 +42,11 @@ const USERS = [
     firstName: "Fidel",
     lastName: "Castro",
   },
+  {
+    id: "1",
+    firstName: "Che",
+    lastName: "Guevara",
+  },
 ];
 
 app.get("/api/get-tasks", (req, res) => {
@@ -51,14 +56,15 @@ app.get("/api/get-tasks", (req, res) => {
 app.post("/api/set-task-user", (req, res) => {
   const { taskId, userId } = req.body;
   const updatedTask = tasks.find((task) => task.id === taskId);
-  updatedTask.user = userId;
+  userId?.length ? (updatedTask.user = userId) : delete updatedTask.user;
   res.send(updatedTask);
 });
 
 app.post("/api/set-task-status", (req, res) => {
   const { taskId, status } = req.body;
   const updatedTask = tasks.find((task) => task.id === taskId);
-  updatedTask.status = status;
+  console.log(status);
+  status ? (updatedTask.status = status) : delete updatedTask.status;
   res.send(updatedTask);
 });
 

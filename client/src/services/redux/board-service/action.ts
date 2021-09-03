@@ -20,17 +20,19 @@ export const getTasks =
 
 export const addTask =
 	(task: Task) =>
-	(dispatch: Dispatch): void => {
-		dispatch({
-			type: ADD_TASK,
-			payload: task,
-		});
+	async (dispatch: Dispatch): Promise<void> => {
+		const response: AxiosResponse<void> = await axios.post('/api/add-task', task);
+		if (response.status === 200)
+			dispatch({
+				type: ADD_TASK,
+				payload: task,
+			});
 	};
 
 export const setUserForTask =
 	(taskId: string, userId: string) =>
 	async (dispatch: Dispatch): Promise<void> => {
-		const axiosPayload = { taskId, userId };
+		const axiosPayload = { taskId, userId: userId.length ? userId : null };
 		const response: AxiosResponse<Task> = await axios.post('/api/set-task-user', axiosPayload);
 		dispatch({
 			type: SET_USER_FOR_TASK,
@@ -39,9 +41,9 @@ export const setUserForTask =
 	};
 
 export const setTaskStatus =
-	(taskId: string, status: TASK_STATUS) =>
+	(taskId: string, status: TASK_STATUS | string) =>
 	async (dispatch: Dispatch): Promise<void> => {
-		const axiosPayload = { taskId, status };
+		const axiosPayload = { taskId, status: status || null };
 		const response: AxiosResponse<Task> = await axios.post('/api/set-task-status', axiosPayload);
 		dispatch({
 			type: SET_TASK_STATUS,

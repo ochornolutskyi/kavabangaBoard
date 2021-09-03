@@ -1,0 +1,23 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	.title {
+		letter-spacing: 1px;
+		margin-bottom: 1.5vh;
+		text-align: center;
+		border-bottom: 1px solid #fff;
+		border-top: 1px solid #fff;
+		padding: 5px;
+	}
+
+	.person {
+		max-width: 260px;
+		width: 100%;
+		margin: 0 auto;
+		font-size: 22px;
+		display: flex;
+		justify-content: space-between;
+	}
+}

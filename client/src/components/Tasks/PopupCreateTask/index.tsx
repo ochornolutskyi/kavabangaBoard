@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React, { FC, useMemo, useState } from 'react';
 import { TASK_STATUS } from '../../../core/enums';
 import { Task } from '../../../services/redux/board-service/types';
+import Button from '../../../shared/components/Button';
 import styles from './PopupCreateTask.module.scss';
 
 type PopupCreateTaskProps = {
@@ -34,18 +35,35 @@ const PopupCreateTask: FC<PopupCreateTaskProps> = ({ setIsShowAddTask, addTask }
 	};
 
 	return (
-		<div>
-			<input type="text" placeholder="Kavabanga name" value={name} onChange={e => setName(e.target.value)} />
-			<input
-				type="text"
-				placeholder="Kavabanga description"
-				value={description}
-				onChange={e => setDescription(e.target.value)}
-			/>
-			<input type="date" placeholder="Kavabanga date" value={date} onChange={e => setDate(e.target.value)} />
-			<button onClick={submitClickHandler} disabled={!kavabangaData}>
-				Submit
-			</button>
+		<div className={styles.container}>
+			<h2 className={styles.title}>Please, create your kavabanga</h2>
+			<div className={styles.form}>
+				<input
+					className={styles.input}
+					type="text"
+					placeholder="Kavabanga name"
+					value={name}
+					onChange={e => setName(e.target.value)}
+				/>
+				<input
+					className={styles.input}
+					type="text"
+					placeholder="Kavabanga description"
+					value={description}
+					onChange={e => setDescription(e.target.value)}
+				/>
+				<input
+					className={styles.input}
+					type="date"
+					placeholder="Kavabanga date"
+					value={date}
+					onChange={e => setDate(e.target.value)}
+				/>
+				<div className={styles.actions}>
+					<Button title="Submit" clickHandler={submitClickHandler} disabled={!kavabangaData} />
+					<Button title="Close" clickHandler={() => setIsShowAddTask(false)} />
+				</div>
+			</div>
 		</div>
 	);
 };

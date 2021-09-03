@@ -1,16 +1,20 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { observer } from 'mobx-react';
+import { useHistory } from 'react-router';
 import TasksList from '../../components/Tasks/TasksList';
-import UsersList from '../../components/Users/UsersList';
 import storeBoard from '../../services/mobx/board-service';
 import storeUsers from '../../services/mobx/users-service';
-import PopupCreateTask from '../../components/Tasks/PopupCreateTask';
 import { TASK_STATUS } from '../../core/enums';
 import { Task } from '../../services/redux/board-service/types';
+import BoardContentContainer from '../../components/BoardContentContainer';
+import UsersList from '../../components/UsersList';
+import Button from '../../shared/components/Button';
 import styles from './MobxBoard.module.scss';
 
-const MobxBoard: FC = () => {
-	const [isShowAddTask, setIsShowAddTask] = useState(false);
+type MobxBoardProps = { isShowBackButton?: boolean };
+
+const MobxBoard: FC<MobxBoardProps> = ({ isShowBackButton }: MobxBoardProps) => {
+	const history = useHistory();
 
 	useEffect(() => {
 		storeBoard.getTasks();
@@ -18,26 +22,21 @@ const MobxBoard: FC = () => {
 	}, []);
 
 	return (
-		<div className={styles.wrapper}>
-			<h1>You`re running the MOBX board</h1>
-			<UsersList users={storeUsers.usersList} />
-			<button onClick={() => setIsShowAddTask(true)}>Add new kavabanga</button>
+		<BoardContentContainer styleType="styleMobx">
+			{isShowBackButton && <Button title="Go back" clickHandler={() => history.go(-1)} />}
+			<h1>MOBX board</h1>
 			<TasksList
 				tasks={storeBoard.tasks}
 				users={storeUsers.usersList}
 				setUserForTask={(taskId: string, userId: string) => storeBoard.setUserForTask(taskId, userId)}
-				setTaskStatus={(taskId: string, status: TASK_STATUS) => storeBoard.setTaskStatus(taskId, status)}
+				setTaskStatus={(taskId: string, status: TASK_STATUS | string) =>
+					storeBoard.setTaskStatus(taskId, status)
+				}
+				addTask={(task: Task) => storeBoard.addTask(task)}
+				total={storeBoard.total}
 			/>
-			{isShowAddTask && (
-				<PopupCreateTask
-					setIsShowAddTask={setIsShowAddTask}
-					addTask={(task: Task) => storeBoard.addTask(task)}
-					// or you can just pass
-					// addTask={storeBoard.addTask}
-					// but you should configure boardStore in constructor as makeAutoObservable(this, {}, { autoBind: true }) for binding context
-				/>
-			)}
-		</div>
+			<UsersList tasks={storeBoard.tasks} users={storeUsers.usersList} />
+		</BoardContentContainer>
 	);
 };
 
