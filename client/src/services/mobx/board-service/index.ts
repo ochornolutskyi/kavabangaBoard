@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction, observable } from 'mobx';
 import axios, { AxiosResponse } from 'axios';
+import { enableLogging } from 'mobx-logger';
 import { Task } from '../../redux/board-service/types';
 import { TASK_STATUS } from '../../../core/enums';
 
@@ -53,6 +54,8 @@ class Board {
 			const taskIndex = this.tasks.findIndex(task => task.id === response.data.id);
 			if (taskIndex !== -1)
 				runInAction(() => {
+					// if you won't wrap child component who has task props by observer you should set copy like:
+					// this.tasks = [...this.tasks.map(task => (task.id === response.data.id ? response.data : task))];
 					this.tasks[taskIndex] = response.data;
 				});
 		} catch (error) {
@@ -197,3 +200,11 @@ export default storeBoard;
 // });
 
 // export default boardStoreObservable;
+
+enableLogging({
+	predicate: () => true,
+	action: true,
+	reaction: true,
+	transaction: true,
+	compute: true,
+});

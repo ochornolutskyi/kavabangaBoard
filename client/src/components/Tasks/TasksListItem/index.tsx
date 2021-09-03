@@ -1,19 +1,18 @@
 import React, { FC, useMemo } from 'react';
 import cx from 'classnames';
-import { observer } from 'mobx-react';
 import { TASK_STATUS } from '../../../core/enums';
 import { Task } from '../../../services/redux/board-service/types';
 import { User } from '../../../services/redux/users-servive/types';
 import styles from './TasksListRow.module.scss';
 
-const setUserFullnameByTask = (task: Task, users: Array<User>): string => {
+const setUserFullnameByTask = (task: Task, users: Array<User>): string | null => {
 	const correctUser = users.find(user => user.id === task.user);
 	if (correctUser) return `${correctUser.firstName} ${correctUser.lastName}`;
 	return "D'oh, here is nobody...";
 };
 
-const setCoolTaskStatusText = (status: TASK_STATUS | undefined): string => {
-	switch (Number(status)) {
+const setCoolTaskStatusText = (task: Task): string | null => {
+	switch (task.status) {
 		case TASK_STATUS.OPEN:
 			return 'Take me, I should be done, mmmm...';
 		case TASK_STATUS.IN_PROGRESS:
@@ -34,7 +33,7 @@ type TasksListRowProps = {
 
 const TasksListRow: FC<TasksListRowProps> = ({ task, users, setUserForTask, setTaskStatus }: TasksListRowProps) => {
 	const currentTaskUserFullname = useMemo(() => setUserFullnameByTask(task, users), [task, users]);
-	const currentCoolStatus = useMemo(() => setCoolTaskStatusText(task?.status), [task]);
+	const currentCoolStatus = useMemo(() => setCoolTaskStatusText(task), [task]);
 
 	const selectUserChangehandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
 		setUserForTask(task.id, e.target.value);
@@ -62,7 +61,7 @@ const TasksListRow: FC<TasksListRowProps> = ({ task, users, setUserForTask, setT
 			</div>
 			<div className={cx(styles.row__cell, styles.cell__select)}>
 				<div style={{ marginBottom: '5px' }}>{currentCoolStatus}</div>
-				<select value={task.status || ''} onChange={selectTaskStatusChangeHandler}>
+				<select value={task.status || ''} onChange={e => setTaskStatus(task.id, +e.target.value)}>
 					<option value="">Select status</option>
 					<option value={TASK_STATUS.OPEN}>Open</option>
 					<option value={TASK_STATUS.IN_PROGRESS}>In progress</option>

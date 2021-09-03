@@ -63,7 +63,6 @@ app.post("/api/set-task-user", (req, res) => {
 app.post("/api/set-task-status", (req, res) => {
   const { taskId, status } = req.body;
   const updatedTask = tasks.find((task) => task.id === taskId);
-  console.log(status);
   status ? (updatedTask.status = status) : delete updatedTask.status;
   res.send(updatedTask);
 });
